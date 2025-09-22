@@ -16,6 +16,8 @@ interface AnalysisData {
   improvements: string[];
   strengths: string[];
   filename: string;
+  jobDescription?: string;
+  jobMatchScore?: number;
 }
 
 const Index = () => {
@@ -23,42 +25,77 @@ const Index = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   // Mock analysis function - in real app, this would call your AI API
-  const analyzeResume = async (file: File) => {
+  const analyzeResume = async (file: File, jobDescription?: string) => {
     setIsAnalyzing(true);
     
     // Simulate AI analysis delay
     await new Promise(resolve => setTimeout(resolve, 3000));
     
+    // Generate job-specific analysis if job description is provided
+    const hasJobDescription = jobDescription && jobDescription.trim().length > 0;
+    const jobMatchScore = hasJobDescription ? Math.floor(Math.random() * 30) + 65 : undefined;
+    
+    const baseSkills = ['React', 'TypeScript', 'Node.js', 'Python', 'SQL', 'Git', 'AWS'];
+    const jobSpecificSkills = hasJobDescription 
+      ? ['Machine Learning', 'Data Analysis', 'Project Management', 'API Development', 'Microservices']
+      : ['Machine Learning', 'Data Analysis', 'Project Management'];
+    
+    const baseMissingSkills = ['Docker', 'Kubernetes', 'GraphQL', 'Next.js'];
+    const jobSpecificMissingSkills = hasJobDescription
+      ? ['TensorFlow', 'Agile', 'CI/CD', 'MongoDB', 'Redis', 'Elasticsearch']
+      : ['TensorFlow', 'Agile'];
+
+    const baseImprovements = [
+      'Add quantifiable achievements with specific metrics and numbers',
+      'Standardize formatting and use consistent bullet point styles',
+      'Add a professional summary section at the top of your resume'
+    ];
+    
+    const jobSpecificImprovements = hasJobDescription ? [
+      ...baseImprovements,
+      `Include keywords from the job description: ${jobDescription.slice(0, 100)}...`,
+      'Highlight experience that directly matches the role requirements',
+      'Quantify achievements relevant to the specific job responsibilities',
+      'Add technical skills mentioned in the job posting',
+      'Tailor your professional summary to match the job requirements'
+    ] : [
+      ...baseImprovements,
+      'Include more technical keywords relevant to your target role',
+      'Include relevant certifications and professional development',
+      'Use action verbs to start each bullet point in experience section'
+    ];
+
+    const baseStrengths = [
+      'Strong technical skill set with modern technologies',
+      'Clear work experience progression and career growth',
+      'Good use of industry-standard terminology',
+      'Professional formatting with appropriate sections'
+    ];
+
+    const jobSpecificStrengths = hasJobDescription ? [
+      ...baseStrengths,
+      'Resume contains several keywords that match the job requirements',
+      'Experience aligns well with the role responsibilities',
+      'Technical skills are relevant to the position'
+    ] : [
+      ...baseStrengths,
+      'Relevant educational background and achievements'
+    ];
+    
     // Mock analysis results
     const mockResults: AnalysisData = {
-      overallScore: 78,
+      overallScore: hasJobDescription ? jobMatchScore! + 10 : 78,
       atsScore: 85,
-      keywordScore: 72,
+      keywordScore: hasJobDescription ? jobMatchScore! : 72,
       formattingScore: 82,
-      contentScore: 75,
-      skills: [
-        'React', 'TypeScript', 'Node.js', 'Python', 'SQL', 'Git', 
-        'AWS', 'Machine Learning', 'Data Analysis', 'Project Management'
-      ],
-      missingSkills: [
-        'Docker', 'Kubernetes', 'GraphQL', 'Next.js', 'TensorFlow', 'Agile'
-      ],
-      improvements: [
-        'Add quantifiable achievements with specific metrics and numbers',
-        'Include more technical keywords relevant to your target role',
-        'Standardize formatting and use consistent bullet point styles',
-        'Add a professional summary section at the top of your resume',
-        'Include relevant certifications and professional development',
-        'Use action verbs to start each bullet point in experience section'
-      ],
-      strengths: [
-        'Strong technical skill set with modern technologies',
-        'Clear work experience progression and career growth',
-        'Good use of industry-standard terminology',
-        'Professional formatting with appropriate sections',
-        'Relevant educational background and achievements'
-      ],
-      filename: file.name
+      contentScore: hasJobDescription ? jobMatchScore! + 5 : 75,
+      skills: [...baseSkills, ...jobSpecificSkills],
+      missingSkills: [...baseMissingSkills, ...jobSpecificMissingSkills],
+      improvements: jobSpecificImprovements,
+      strengths: jobSpecificStrengths,
+      filename: file.name,
+      jobDescription: hasJobDescription ? jobDescription : undefined,
+      jobMatchScore: jobMatchScore
     };
     
     setAnalysisData(mockResults);

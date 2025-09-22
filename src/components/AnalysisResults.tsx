@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, Target, Award, Zap, Users, TrendingUp, AlertTriangle, CheckCircle } from 'lucide-react';
+import { FileText, Target, Award, Zap, Users, TrendingUp, AlertTriangle, CheckCircle, Briefcase } from 'lucide-react';
 import { ScoreCard, OverallScoreCard } from './ScoreCard';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -16,6 +16,8 @@ interface AnalysisData {
   improvements: string[];
   strengths: string[];
   filename: string;
+  jobDescription?: string;
+  jobMatchScore?: number;
 }
 
 interface AnalysisResultsProps {
@@ -34,7 +36,9 @@ export const AnalysisResults: React.FC<AnalysisResultsProps> = ({ data, onNewUpl
     missingSkills,
     improvements,
     strengths,
-    filename
+    filename,
+    jobDescription,
+    jobMatchScore
   } = data;
 
   return (
@@ -46,9 +50,21 @@ export const AnalysisResults: React.FC<AnalysisResultsProps> = ({ data, onNewUpl
           <h2 className="text-3xl font-bold gradient-text">Analysis Complete</h2>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          We've analyzed <span className="font-medium text-foreground">{filename}</span> and 
+          We've analyzed <span className="font-medium text-foreground">{filename}</span> 
+          {jobDescription ? ' against the provided job description' : ''} and 
           identified optimization opportunities to improve your resume's performance.
         </p>
+        {jobDescription && jobMatchScore && (
+          <div className="bg-accent/10 border border-accent/20 rounded-lg p-4 max-w-xl mx-auto">
+            <div className="flex items-center justify-center space-x-2 mb-2">
+              <Briefcase className="w-5 h-5 text-accent" />
+              <span className="font-medium text-accent">Job Match Score: {jobMatchScore}%</span>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Your resume matches {jobMatchScore}% of the job requirements based on the provided description.
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Overall Score */}
@@ -207,17 +223,33 @@ export const AnalysisResults: React.FC<AnalysisResultsProps> = ({ data, onNewUpl
                 <div className="bg-muted/50 rounded-lg p-4">
                   <h4 className="font-medium mb-2">Priority Actions</h4>
                   <ul className="space-y-2 text-sm">
-                    <li>• Add 3-5 missing technical skills relevant to your field</li>
-                    <li>• Quantify at least 5 achievements with specific numbers</li>
-                    <li>• Use industry-standard section headers (Experience, Education, Skills)</li>
-                    <li>• Ensure consistent formatting throughout the document</li>
+                    {jobDescription ? (
+                      <>
+                        <li>• Add missing skills that match the job requirements</li>
+                        <li>• Include keywords from the job description naturally</li>
+                        <li>• Quantify achievements that relate to job responsibilities</li>
+                        <li>• Tailor your professional summary to the role</li>
+                      </>
+                    ) : (
+                      <>
+                        <li>• Add 3-5 missing technical skills relevant to your field</li>
+                        <li>• Quantify at least 5 achievements with specific numbers</li>
+                        <li>• Use industry-standard section headers (Experience, Education, Skills)</li>
+                        <li>• Ensure consistent formatting throughout the document</li>
+                      </>
+                    )}
                   </ul>
                 </div>
                 <div className="bg-accent/5 rounded-lg p-4 border border-accent/20">
-                  <h4 className="font-medium mb-2 text-accent">Pro Tip</h4>
+                  <h4 className="font-medium mb-2 text-accent">
+                    {jobDescription ? 'Job-Specific Tip' : 'Pro Tip'}
+                  </h4>
                   <p className="text-sm text-muted-foreground">
-                    Tailor your resume for each application by including 6-8 keywords from the job description
-                    while maintaining natural language flow.
+                    {jobDescription ? (
+                      'Your resume has been analyzed against the specific job requirements. Focus on the missing skills and keywords highlighted above to improve your match score.'
+                    ) : (
+                      'Tailor your resume for each application by including 6-8 keywords from the job description while maintaining natural language flow.'
+                    )}
                   </p>
                 </div>
               </div>

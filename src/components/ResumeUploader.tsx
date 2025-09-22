@@ -1,12 +1,14 @@
 import React, { useState, useCallback } from 'react';
-import { Upload, FileText, CheckCircle, AlertCircle } from 'lucide-react';
+import { Upload, FileText, CheckCircle, AlertCircle, Briefcase } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 
 interface ResumeUploaderProps {
-  onFileUpload: (file: File) => void;
+  onFileUpload: (file: File, jobDescription?: string) => void;
   isAnalyzing: boolean;
 }
 
@@ -16,6 +18,7 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
 }) => {
   const [dragActive, setDragActive] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [jobDescription, setJobDescription] = useState('');
   const { toast } = useToast();
 
   const handleDrag = useCallback((e: React.DragEvent) => {
@@ -66,7 +69,7 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
       setUploadProgress(prev => {
         if (prev >= 100) {
           clearInterval(interval);
-          onFileUpload(file);
+          onFileUpload(file, jobDescription);
           return 100;
         }
         return prev + 10;
@@ -77,6 +80,15 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       handleFileUpload(e.target.files[0]);
+    }
+  };
+
+  const handleAnalyzeClick = () => {
+    const fileInput = document.getElementById('file-upload') as HTMLInputElement;
+    if (fileInput?.files?.[0]) {
+      handleFileUpload(fileInput.files[0]);
+    } else {
+      fileInput?.click();
     }
   };
 
@@ -117,7 +129,7 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
         onChange={handleFileSelect}
       />
       
-      <div className="space-y-6">
+      <div className="space-y-8">
         <div className="flex justify-center">
           <div className="relative">
             <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center">
@@ -138,12 +150,32 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
           </p>
         </div>
 
+        {/* Job Description Input */}
+        <div className="space-y-4 max-w-2xl mx-auto">
+          <div className="text-left">
+            <Label htmlFor="job-description" className="flex items-center space-x-2 text-base font-medium">
+              <Briefcase className="w-4 h-4 text-primary" />
+              <span>Job Description (Optional)</span>
+            </Label>
+            <p className="text-sm text-muted-foreground mt-1">
+              Paste the job description for tailored recommendations and keyword matching
+            </p>
+          </div>
+          <Textarea
+            id="job-description"
+            placeholder="Paste the job description here to get personalized recommendations based on the specific role requirements..."
+            value={jobDescription}
+            onChange={(e) => setJobDescription(e.target.value)}
+            className="min-h-[120px] resize-none"
+          />
+        </div>
+
         <Button
-          onClick={() => document.getElementById('file-upload')?.click()}
+          onClick={handleAnalyzeClick}
           className="btn-hero"
           size="lg"
         >
-          Choose File to Upload
+          {jobDescription.trim() ? 'Analyze Resume for Job Match' : 'Choose File to Upload'}
         </Button>
 
         <div className="flex items-center justify-center space-x-6 text-sm text-muted-foreground">
@@ -157,7 +189,7 @@ export const ResumeUploader: React.FC<ResumeUploaderProps> = ({
           </div>
           <div className="flex items-center space-x-2">
             <CheckCircle className="w-4 h-4 text-accent" />
-            <span>Secure & Private</span>
+            <span>Job-Specific Analysis</span>
           </div>
         </div>
       </div>
