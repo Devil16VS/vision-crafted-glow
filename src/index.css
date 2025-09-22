@@ -1,96 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Resume Analyzer Design System - Modern Professional UI */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Background & Surface Colors */
+    --background: 222 25% 98%;
+    --foreground: 222 20% 15%;
+    --surface: 222 15% 99%;
+    
+    /* Card System */
+    --card: 222 15% 99%;
+    --card-foreground: 222 20% 15%;
+    --card-shadow: 222 25% 90%;
+    
+    /* Interactive Elements */
+    --popover: 222 15% 99%;
+    --popover-foreground: 222 20% 15%;
+    
+    /* Brand Colors - Professional Blue System */
+    --primary: 224 76% 48%;
+    --primary-foreground: 222 15% 99%;
+    --primary-light: 224 76% 65%;
+    --primary-dark: 224 76% 35%;
+    
+    /* Accent - Warm Success Green */
+    --accent: 150 80% 45%;
+    --accent-foreground: 222 15% 99%;
+    --accent-light: 150 80% 55%;
+    
+    /* Secondary - Sophisticated Purple */
+    --secondary: 268 50% 55%;
+    --secondary-foreground: 222 15% 99%;
+    --secondary-light: 268 50% 70%;
+    
+    /* Status Colors */
+    --success: 150 80% 45%;
+    --success-foreground: 222 15% 99%;
+    --warning: 42 96% 50%;
+    --warning-foreground: 222 20% 15%;
+    --destructive: 0 85% 55%;
+    --destructive-foreground: 222 15% 99%;
+    
+    /* Neutral System */
+    --muted: 222 15% 94%;
+    --muted-foreground: 222 15% 45%;
+    --muted-light: 222 15% 97%;
+    
+    /* Border & Input */
+    --border: 222 25% 88%;
+    --input: 222 25% 88%;
+    --ring: 224 76% 48%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(224 76% 48%), hsl(268 50% 55%));
+    --gradient-accent: linear-gradient(135deg, hsl(150 80% 45%), hsl(224 76% 48%));
+    --gradient-surface: linear-gradient(180deg, hsl(222 25% 98%), hsl(222 15% 96%));
+    --gradient-card: linear-gradient(145deg, hsl(222 15% 99%), hsl(222 25% 96%));
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 4px hsl(222 25% 85% / 0.1);
+    --shadow-md: 0 4px 12px hsl(222 25% 80% / 0.15);
+    --shadow-lg: 0 8px 24px hsl(222 25% 75% / 0.2);
+    --shadow-glow: 0 0 20px hsl(224 76% 48% / 0.15);
+    
+    /* Spacing & Radius */
+    --radius: 0.75rem;
+    --radius-sm: 0.5rem;
+    --radius-lg: 1rem;
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --background: 222 25% 6%;
+    --foreground: 222 15% 92%;
+    --surface: 222 20% 8%;
+    
+    --card: 222 20% 8%;
+    --card-foreground: 222 15% 92%;
+    --card-shadow: 222 25% 4%;
+    
+    --popover: 222 20% 8%;
+    --popover-foreground: 222 15% 92%;
+    
+    --primary: 224 76% 58%;
+    --primary-foreground: 222 20% 8%;
+    --primary-light: 224 76% 70%;
+    --primary-dark: 224 76% 45%;
+    
+    --accent: 150 80% 50%;
+    --accent-foreground: 222 20% 8%;
+    --accent-light: 150 80% 60%;
+    
+    --secondary: 268 50% 65%;
+    --secondary-foreground: 222 20% 8%;
+    --secondary-light: 268 50% 75%;
+    
+    --muted: 222 20% 12%;
+    --muted-foreground: 222 15% 65%;
+    --muted-light: 222 20% 10%;
+    
+    --border: 222 20% 15%;
+    --input: 222 20% 15%;
+    --ring: 224 76% 58%;
+    
+    --gradient-primary: linear-gradient(135deg, hsl(224 76% 58%), hsl(268 50% 65%));
+    --gradient-accent: linear-gradient(135deg, hsl(150 80% 50%), hsl(224 76% 58%));
+    --gradient-surface: linear-gradient(180deg, hsl(222 25% 6%), hsl(222 20% 4%));
+    --gradient-card: linear-gradient(145deg, hsl(222 20% 8%), hsl(222 25% 6%));
+    
+    --shadow-sm: 0 2px 4px hsl(222 25% 2% / 0.3);
+    --shadow-md: 0 4px 12px hsl(222 25% 2% / 0.4);
+    --shadow-lg: 0 8px 24px hsl(222 25% 2% / 0.5);
+    --shadow-glow: 0 0 20px hsl(224 76% 58% / 0.2);
   }
 }
 
@@ -99,7 +127,92 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground;
+  html {
+    scroll-behavior: smooth;
   }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+    background: var(--gradient-surface);
+  }
+}
+
+@layer components {
+  /* Hero Button Variant */
+  .btn-hero {
+    @apply bg-gradient-to-r from-primary to-secondary text-primary-foreground font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105;
+    background: var(--gradient-primary);
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Upload Zone */
+  .upload-zone {
+    @apply border-2 border-dashed border-border bg-card rounded-xl p-8 transition-all duration-300 hover:border-primary;
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-md);
+  }
+
+  .upload-zone:hover {
+    background: hsl(var(--muted-light));
+  }
+
+  .upload-zone.dragover {
+    @apply border-primary bg-primary/5 scale-105;
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Score Card */
+  .score-card {
+    @apply bg-card rounded-xl p-6 shadow-lg border border-border/50 transition-all duration-300 hover:shadow-xl hover:scale-105;
+    background: var(--gradient-card);
+  }
+
+  /* Progress Ring */
+  .progress-ring {
+    transform: rotate(-90deg);
+    transition: stroke-dashoffset 0.5s ease-in-out;
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Animated Background */
+  .animated-bg {
+    background-size: 400% 400%;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  /* Glass Effect */
+  .glass {
+    backdrop-filter: blur(10px);
+    background: hsl(var(--card) / 0.8);
+    border: 1px solid hsl(var(--border) / 0.5);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px hsl(var(--primary) / 0.1); }
+  50% { box-shadow: 0 0 30px hsl(var(--primary) / 0.3); }
 }
